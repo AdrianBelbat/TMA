@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Approve Request</title>
+</head>
+<body>
+{% extends 'tma_app/base.html' %}
+{% block content %}
+	<form action="{% url 'tma_app:approve_request' item.request_id %}" method="post">
+        {% csrf_token %}
+        <button name="submit">Approve</button>
+    </form>
+{% endblock %}
+</body>
+</html>

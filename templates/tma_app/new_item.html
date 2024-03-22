@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>New item</title>
+</head>
+<body>
+{% extends 'tma_app/base.html' %}
+{% block content %}
+	<form action="{% url 'tma_app:new_item' %}" method="post">
+        {% csrf_token %}
+        {{ form.as_div }}
+        <button name="submit">Add new item</button>
+    </form>
+{% endblock %}
+</body>
+</html>

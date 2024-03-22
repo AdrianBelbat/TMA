@@ -1,0 +1,40 @@
+body {
+    background: darkgray;
+}
+
+table {
+    border-collapse: collapse;
+    margin-left: auto;
+    margin-right: auto;
+}
+table, th, td, tr {
+    border: 1px solid;
+    padding:10px;
+    background: white;
+}
+th {
+    background-color: lightgray;
+}
+
+th, td {
+    font-size: 24px;
+}
+h1 {
+    text-align: center;
+}
+
+.base_p {
+    font-size: 25px;
+    text-align: center;
+}
+
+.button {
+  text-decoration: none;
+  background-color: #EEEEEE;
+  color: #333333;
+  padding: 1px;
+  border-top: 1px solid #CCCCCC;
+  border-right: 1px solid #333333;
+  border-bottom: 1px solid #333333;
+  border-left: 1px solid #CCCCCC;
+}

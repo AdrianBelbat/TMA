@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Deny Request</title>
+</head>
+<body>
+{% extends 'tma_app/base.html' %}
+{% block content %}
+    <form action="{% url 'tma_app:deny_request' item.request_id %}" method="post">
+        {% csrf_token %}
+        {{ form.as_div }}
+        <button name="submit">Deny</button>
+    </form>
+{% endblock %}
+</body>
+</html>

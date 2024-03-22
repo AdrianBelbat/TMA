@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% extends 'tma_app/base.html' %}
+    <meta charset="UTF-8">
+    <title>Requests</title>
+</head>
+<body>
+{% block content %}
+    <table>
+    <tr>
+        <th><a href="?sort=request_id">Request ID</a></th>
+        <th><a href="?sort=employee_name">Employee name</a></th>
+        <th><a href="?sort=item_id">Item ID</a></th>
+        <th><a href="?sort=unit_of_measurement">Unit of measurement</a></th>
+        <th><a href="?sort=quantity">Quantity</a></th>
+        <th><a href="?sort=price_without_vat">Price without VAT</a></th>
+        <th><a href="?sort=comment">comment</a></th>
+        <th><a href="?sort=status">status</a></th>
+        <th>Confirm Request</th>
+        <th>Deny Request</th>
+    </tr>
+    {% for object in requests %}
+        <tr>
+            <td>{{ object.request_id }}</td>
+            <td>{{ object.employee_name }}</td>
+            <td>{{ object.item }}</td>
+            <td>{{ object.unit_of_measurement }}</td>
+            <td>{{ object.quantity }}</td>
+            <td>{{ object.price_without_vat }}</td>
+            <td>{{ object.comment }}</td>
+            <td>{{ object.status }}</td>
+            {% if object.quantity > object.item.quantity %}
+            <td>Order quantity is higher than stock</td>
+                {% else %}
+                    {% if object.status == "Denied" %}
+                    <td>Request already Denied</td>
+                        {% else %}
+                            {% if object.status == "Approved" %}
+                                <td>Request already Approved</td>
+                                {% else %}
+                                <td><a href="{% url 'tma_app:approve_request' object.request_id %}">Click this to approve request</a></td>
+                            {% endif %}
+                    {% endif %}
+            {% endif %}
+            {% if object.status == "Denied"%}
+                <td>Request already Denied</td>
+                {% elif object.status == "Approved" %}
+                    <td>Request already Approved</td>
+                    {% else %}
+                        <td><a href="{% url 'tma_app:deny_request' object.request_id %}">Click this to deny request</a></td>
+            {% endif %}
+        </tr>
+    {% endfor %}
+    </table>
+{% endblock %}
+</body>
+</html>

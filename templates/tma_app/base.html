@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>base</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'styles.css'%}"/>
+</head>
+<body>
+<p class="base_p">
+    <a href="{% url 'tma_app:index' %}">Main site</a>
+    <a href="{% url 'tma_app:items' %}">Items</a>
+    <a href="{% url 'tma_app:requests' %}">Requests</a>
+</p>
+{% block content %}{% endblock %}
+</body>
+</html>

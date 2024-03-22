@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% extends 'tma_app/base.html' %}
+    <meta charset="UTF-8">
+    <title>Items</title>
+</head>
+<body>
+{% block content %}
+    <h1><a href="{% url "tma_app:new_item" %}">Add new item</a></h1>
+    <table>
+    <tr>
+        <th><a href="?sort=item_id">Item ID</a></th>
+        <th><a href="?sort=item_group">Item Group</a></th>
+        <th><a href="?sort=unit_of_measurement">Unit of measurement</a></th>
+        <th><a href="?sort=quantity">Quantity</a></th>
+        <th><a href="?sort=price_without_vat">Price without VAT</a></th>
+        <th><a href="?sort=status">Status</a></th>
+        <th><a href="?sort=storage_location">Storage location</a></th>
+        <th><a href="?sort=contact_person">Contact person</a></th>
+        <th>Edit</th>
+        <th>Remove</th>
+        <th>Order</th>
+    </tr>
+    {% for object in items %}
+        <tr>
+            <td>{{ object.item_id }}</td>
+            <td>{{ object.item_group }}</td>
+            <td>{{ object.unit_of_measurement }}</td>
+            <td>{{ object.quantity }}</td>
+            <td>{{ object.price_without_vat }}</td>
+            <td>{{ object.status }}</td>
+            <td>{{ object.storage_location }}</td>
+            <td>{{ object.contact_person }}</td>
+            <td><a href="{% url 'tma_app:edit_item' object.item_id %}">Click to edit</a></td>
+            <td><a href="{% url 'tma_app:delete_item' object.item_id %}">Click to remove</a></td>
+            <td><a href="{% url 'tma_app:order_item' object.item_id %}">Click to order</a></td>
+        </tr>
+    {% endfor %}
+    </table>
+{% endblock %}
+</body>
+</html>
