@@ -1,7 +1,10 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 
 from .models import Items, TmaRequests
 from .forms import ItemsForm, DenyRequestForm, OrderItemForm
+from .check_permissions import group_required
+
 
 item_headers = {'item_id': 'asc',
             'item_group': 'asc',
@@ -25,6 +28,7 @@ def index(request):
     """The home page for tma"""
     return render(request, 'tma_app/index.html')
 
+@login_required
 def items(request):
     """Show all items"""
     sort = request.GET.get('sort')
@@ -40,6 +44,7 @@ def items(request):
     context = {'items': items}
     return render(request, 'tma_app/items.html', context)
 
+@login_required
 def requests(request):
     """Show all requests"""
     sort = request.GET.get('sort')
@@ -55,6 +60,8 @@ def requests(request):
     context = {'requests': requests}
     return render(request, 'tma_app/requests.html', context)
 
+@login_required
+@group_required("Coordinator", "Administrator")
 def new_item(request):
     """Add a new item"""
     if request.method != 'POST':
@@ -71,6 +78,8 @@ def new_item(request):
     context = {'form': form}
     return render(request, 'tma_app/new_item.html', context)
 
+@login_required
+@group_required("Coordinator", "Administrator")
 def edit_item(request, item_id):
     """Edit existing item"""
     item = Items.objects.get(item_id=item_id)
@@ -88,6 +97,8 @@ def edit_item(request, item_id):
     context = {'item': item, 'form': form}
     return render(request, 'tma_app/edit_item.html', context)
 
+@login_required
+@group_required("Coordinator", "Administrator")
 def delete_item(request, item_id):
     """Delete chosen item"""
     item = Items.objects.get(item_id=item_id)
@@ -97,8 +108,10 @@ def delete_item(request, item_id):
         return redirect('tma_app:items')
 
     context = {'item': item}
-    return render(request, 'tma_app/delete_request.html', context)
+    return render(request, 'tma_app/delete_item.html', context)
 
+@login_required
+@group_required("Coordinator", "Administrator")
 def deny_request(request, request_id):
     """Deny the request and set it's status to 'denied' - also ask for comment if possible"""
     item = TmaRequests.objects.get(request_id=request_id)
@@ -117,10 +130,12 @@ def deny_request(request, request_id):
     context = {'item': item, 'form': form}
     return render(request, 'tma_app/deny_request.html', context)
 
+@login_required
+@group_required("Coordinator", "Administrator")
 def approve_request(request, request_id):
     """Aprove chosen request"""
     item = TmaRequests.objects.get(request_id=request_id)
-    item2 = Items.objects.get(item_id=request_id)
+    item2 = Items.objects.get(item_id=item.item_id)
 
     if request.method == 'POST':
         item2.quantity -= item.quantity
@@ -133,6 +148,8 @@ def approve_request(request, request_id):
     context = {'item': item}
     return render(request, 'tma_app/approve_request.html', context)
 
+@login_required
+@group_required("Coordinator", "Administrator", "Employee")
 def order_item(request, item_id):
     """Order an item"""
     item = Items.objects.get(item_id=item_id)

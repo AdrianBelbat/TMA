@@ -8,10 +8,22 @@
 </head>
 <body>
 <p class="base_p">
+    {% if user.is_authenticated %}
+    	You are currently logged in as:  {{ user.username }} ||
+        {% else %}
+        <a href="{% url 'accounts:login' %}">Log in</a>
+    {% endif %}
     <a href="{% url 'tma_app:index' %}">Main site</a>
     <a href="{% url 'tma_app:items' %}">Items</a>
     <a href="{% url 'tma_app:requests' %}">Requests</a>
 </p>
 {% block content %}{% endblock %}
+    {% if user.is_authenticated %}
+        <hr />
+        <form class="logout" action="{% url 'accounts:logout' %}" method="post">
+            {% csrf_token %}
+            <button name="submit">Log out</button>
+        </form>
+    {% endif %}
 </body>
 </html>

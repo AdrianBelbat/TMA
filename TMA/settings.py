@@ -25,6 +25,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     # My apps
     'tma_app',
+    'accounts',
 
     # Default django apps
     'django.contrib.admin',
@@ -122,3 +123,8 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# My settings
+LOGIN_REDIRECT_URL = 'tma_app:index'
+LOGOUT_REDIRECT_URL = 'tma_app:index'
+LOGIN_URL = 'accounts:login'
